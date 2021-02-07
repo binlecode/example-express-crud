@@ -11,12 +11,13 @@
 
 <main>
     <div class="jumbotron">
-        <h1>Todo: <%= title %></h1>
-
-        <p>Reporter: <%= reporter %></p>
-        <p>Assignee: <%= assignee %></p>
-        <p>Created at: <%= createdAt %></p>
-
+        <% if (todo) { %>
+            <h1>Todo: <%= todo.title %></h1>
+            <p>Completed: <%= todo.completed %></p>
+            <p>Requested at: <%= todo.created_at %></p>
+        <% } else { %>
+            <h1>Todo: Not Found</h1>
+        <% } %>
     </div>
 </main>
 

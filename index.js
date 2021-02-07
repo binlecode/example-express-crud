@@ -50,12 +50,8 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!')
 });
 
-// require('./app/routes/todo.routes.js')(app);
 
-app.listen(3000, function () {
-    // console.log('server is up and listening on 3000');
-    log.info('server is up and listening on port 3000');
-});
+
 
 // app.use('/health', require('./healthcheck')());
 // provide custom healthcheck response body
@@ -121,40 +117,13 @@ app.get('/about', (req, res) => {
     });
 });
 
-app.post('/todos', (req, res) => {
-    log.warn({ form: req.body }, 'this is request form');
+// load todos mvc
+require('./todos.js')(app);
 
-    res.json(req.body);
+
+
+
+app.listen(3000, function () {
+    // console.log('server is up and listening on 3000');
+    log.info('server is up and listening on port 3000');
 });
-
-app.get('/todos/:id', (req, res) => {
-    res.render('todos/show', {
-        title: 'Brew a Janpanese coffee',
-        reporter: "Jim",
-        assignee: "Nobody",
-        // createdAt: new Date().toISOString()
-        // createdAt: new Date().toLocaleTimeString()
-        // createdAt: new Date().toLocaleDateString()
-        createdAt: new Date().toString()
-    });
-});
-
-app.get('/todos', (req, res) => {
-    res.render('todos/list', {
-        todoList: [
-            {
-                title: 'Build a Gunpla',
-                reporter: "Ellen",
-                assignee: "Bin",
-                createdAt: new Date(Date.parse('2020-12-11T14:30:30')).toString()
-            },
-            {
-                title: 'Read a book',
-                reporter: "Me",
-                assignee: "Nobody",
-                createdAt: new Date('01/22/2021').toString()
-            }
-        ]
-    })
-});
-

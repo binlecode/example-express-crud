@@ -17,3 +17,6 @@ node_modules
 
 *.log
 *.gz
+
+# sqlite3 db file
+*.sqlite3

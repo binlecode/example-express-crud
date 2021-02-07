@@ -17,9 +17,8 @@
             <% todoList.forEach(function(todo) { %>
                 <li>
                     <strong><%= todo.title %></strong>
-                    <p>By: <%= todo.reporter %></p>
-                    <p>To: <%= todo.assignee %></p>
-                    <p>At: <%= todo.createdAt %></p>
+                    <p>Completed: <%= todo.completed ? 'Yes' : 'No' %></p>
+                    <p>Requested at: <%= todo.created_at %></p>
                 </li>
             <% }); %>
         </ul>

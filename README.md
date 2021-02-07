@@ -17,6 +17,15 @@ npm run dev | ./node_modules/.bin/bunyan
 
 
 - root url: `localhost:3000`
+
+### initialize database
+
+```sh
+./node_modules/.bin/knex migrate:latest
+./node_modules/.bin/knex seed:run
+```
+
+
 - healthcheck url: `localhost:3000/health`
 
 
@@ -50,12 +59,52 @@ npm install -D nodemon
 
 ```sh
 npm install express sqlite3 knex
+npm install objection
 
 npm install morgan
 npm install body-parser
 npm install cors
 
 npm install bunyan
+```
+
+Use knex init to bootstrap db configuraiton
+```sh
+./node_modules/.bin/knex init
+# => Created ./knexfile.js
+```
+
+Create first migration file:
+```sh
+./node_modules/.bin/knex migrate:make initial
+```
+
+Fill DDL in migration file `db/<timestamp>_initial.js`.
+Then run migration to initialize schema:
+```sh
+./node_modules/.bin/knex migrate:latest 
+```
+
+Create a second migration file to add additional column:
+```sh
+node_modules/.bin/knex migrate:make add-publisher
+```
+
+Fill DDL in migration file `db/<timestamp>_add-publisher.js`.
+Then run migration again to update schema:
+```sh
+./node_modules/.bin/knex migrate:latest 
+```
+
+Create seed script:
+```sh
+./node_modules/.bin/knex seed:make todos
+```
+Note seed file is env specific, fill DML in seed file `db/seeds/dev/todos.js`.
+
+Run seed file:
+```sh
+./node_modules/.bin/knex seed:run
 ```
 
 
