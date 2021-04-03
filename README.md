@@ -1,5 +1,16 @@
 
 
+## application overview
+
+This application has basic setup of:
+- express4
+- sqlite3 and knex as data persistence
+- bunyan logging
+- healthcheck middleware with custom health indicators
+- todos endpoint as CRUD example
+- TODO: token auth for REST endpoints
+- TODO: dotenv for configurations for db conn, etc
+
 ## quick start
 
 ```sh
@@ -14,11 +25,11 @@ bunyan tool:
 npm run dev | ./node_modules/.bin/bunyan
 ```
 
-
-
-- root url: `localhost:3000`
+The app is running at root url: `http://localhost:3000`
 
 ### initialize database
+
+Knex migration is used to initialize and seed database.
 
 ```sh
 ./node_modules/.bin/knex migrate:latest
@@ -26,10 +37,9 @@ npm run dev | ./node_modules/.bin/bunyan
 ```
 
 
-- healthcheck url: `localhost:3000/health`
-
-
 ## health check
+
+The healthcheck url is at: `localhost:3000/health`
 
 Health check is via [`healthcheck-basic`](./healthcheck-basic.js) middleware.
 It takes in a `healthy` callback and a list of health indicators to joinly vote
@@ -43,7 +53,7 @@ Use `bunyan`(https://www.npmjs.com/package/bunyan) for logging.
 
 ## project bootstrap
 
-tutorial ref: 
+This application is based on the tutorial ref: 
 https://medium.com/@MajikMan/starting-a-node-project-from-scratch-with-sqlite3-knex-and-express-fb4b765aca
 
 
@@ -62,7 +72,6 @@ npm install express sqlite3 knex
 npm install objection
 
 npm install morgan
-npm install body-parser
 npm install cors
 
 npm install bunyan

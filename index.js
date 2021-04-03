@@ -1,14 +1,8 @@
 const express = require('express');
-const bodyParser = require('body-parser');
 const cors = require('cors');
 const morgan = require('morgan');
-const { request } = require('express');
-
-
 const bunyan = require('bunyan');
 const log = bunyan.createLogger({ name: 'express-crud' });
-
-
 
 // const dbConfig = require('./config/database.config.js');
 
@@ -23,13 +17,17 @@ app.use(morgan('combined'))
 app.set('view engine', 'ejs');
 
 // parse requests of content-type - application/x-www-form-urlencoded
-// The urlencoded method within body-parser tells body-parser to extract data 
-// from the <form> element and add them to the body property in the request 
-// object.
-app.use(bodyParser.urlencoded({ extended: true }));
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+// The urlencoded middleware is to extract data from the <form> element 
+// and add them to the body property in the request object.
+// The json middleware parses requests with content-type as application/json
 
+// for express v4.16.0 or higher, bodyParser.urlencoded and json() are 
+// part of express
+
+app.use(express.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
+// app.use(bodyParser.json());
 
 app.use((req, res, next) => {
     console.log('Request Headers:')
@@ -49,9 +47,6 @@ app.use((err, req, res, next) => {
     // TODO: in dev env, include error stack info in response 
     res.status(500).send('Something broke!')
 });
-
-
-
 
 // app.use('/health', require('./healthcheck')());
 // provide custom healthcheck response body
@@ -81,7 +76,7 @@ app.use('/health', require('./healthcheck-basic')({
 app.get('/', (req, res) => {
 
     let respBody = {
-        message: 'welcome to express crud teamplate app',
+        message: 'welcome to express crud template app',
         requestDetails: {
             route: req.route,
             headers: req.headers
@@ -119,9 +114,6 @@ app.get('/about', (req, res) => {
 
 // load todos mvc
 require('./todos.js')(app);
-
-
-
 
 app.listen(3000, function () {
     // console.log('server is up and listening on 3000');
