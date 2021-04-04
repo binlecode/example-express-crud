@@ -27,16 +27,21 @@ module.exports = function (options = {}) {
             response.indicators = {};
             let statusFlag = 'UP';
             for (const idcKey in options.indicators) {
-                const idcStatusData = options.indicators[idcKey]();
-                const idcStatusFlag = idcStatusData['status'];
+                let idcStatus = options.indicators[idcKey];
+                if (typeof idcStatus === 'function') {
+                    idcStatus = idcStatus();
+                }
+                // if status not given, default to 'DOWN'
+                const idcStatusFlag = idcStatus['status'] || 'DOWN';
                 if (typeof idcStatusFlag === 'string') {
-                    if (idcStatusFlag.toUpperCase() === 'DOWN' && statusFlag.toUpperCase() !== 'DOWN') {
+                    if (idcStatusFlag.toUpperCase() === 'DOWN') {
                         statusFlag = 'DOWN';
-                    } else if (idcStatusFlag.toUpperCase() === 'WARN' && !(['WARN', 'DOWN'].includes(statusFlag.toUpperCase()))) {
+                    } else if (idcStatusFlag.toUpperCase() === 'WARN'
+                        && !(['WARN', 'DOWN'].includes(statusFlag.toUpperCase()))) {
                         statusFlag = 'WARN';
                     }
                 }
-                response.indicators[idcKey] = idcStatusData;
+                response.indicators[idcKey] = idcStatus;
             }
             // assign overall status flag
             response['status'] = statusFlag;

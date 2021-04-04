@@ -63,20 +63,36 @@ app.use('/health', require('./healthcheck-basic')({
         };
     },
     indicators: {
-        device1: () => {
+        device0: () => {
             return {
-                status: 'UP'
+                // status: 'UP'
             };
+        },
+        device1: {
+            status: 'UP',
+            msg: 'this is device 1 status'
         },
         network1: () => {
             return {
-                status: 'DOWN',
+                status: 'UP',
                 message: 'TTL longer than expected.'
             };
         }
     }
 }));
 
+// a simple async middleware with a delay function resolving a 'slow' return
+app.use('/ready', async (req, res, next) => {
+    const status = await delay(3000, 'server is ready');
+    res.send(status);
+});
+
+// a simple wrapper of delay promise based on setTimeout
+function delay(t, v) {
+    return new Promise(function (resolve) {
+        setTimeout(resolve.bind(null, v), t);
+    });
+}
 
 app.get('/', (req, res) => {
 
