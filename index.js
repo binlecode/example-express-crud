@@ -50,11 +50,14 @@ app.use((err, req, res, next) => {
 
 // app.use('/health', require('./healthcheck')());
 // provide custom healthcheck response body
-app.use('/health', require('./healthcheck-basic')({
 // app.use('/health', require('./healthcheck')({
+app.use('/health', require('./healthcheck-basic')({
     healthy: () => {
         return {
-            uptime: process.uptime()
+            pid: process.pid,
+            uptime: process.uptime(),
+            memory: process.memoryUsage(),
+            cpuUsage: process.cpuUsage()
         };
     },
     indicators: {
