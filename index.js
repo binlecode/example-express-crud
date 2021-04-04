@@ -56,7 +56,9 @@ app.use('/health', require('./healthcheck-basic')({
         return {
             pid: process.pid,
             uptime: process.uptime(),
-            memory: process.memoryUsage(),
+            // memory: process.memoryUsage(),
+            // resident ram usage in MB
+            memoryUsage: Math.round(process.memoryUsage().rss / 1024 / 1024) + 'M',
             cpuUsage: process.cpuUsage()
         };
     },
